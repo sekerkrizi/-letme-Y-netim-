@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9/H Sınav ve Çalışma Rehberi</title>
+<style>
+:root{
+  --bg:#0f1219; --surface:#181d29; --surface-2:#212838; --line:#2c354b;
+  --text:#e8ebf4; --muted:#98a2bb; --c:#7cc4ff; --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;
+  min-height:100vh;padding:28px 16px 56px;
+}
+.wrap{max-width:980px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+h1{font-size:clamp(1.8rem,6vw,2.8rem);line-height:1.1;letter-spacing:-.02em}
+header p{color:var(--muted);margin-top:8px;max-width:34ch}
+
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.9rem;color:var(--c);
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 14px;
+  cursor:pointer;margin-bottom:20px;text-decoration:none;transition:background .2s;
+}
+.back-btn:hover{background:var(--surface-2)}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(5,1fr)}}
+.subject{
+  --c:#7cc4ff;
+  font:inherit;color:var(--text);text-align:left;cursor:pointer;position:relative;overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 14px;min-height:116px;display:flex;flex-direction:column;
+  justify-content:space-between;gap:10px;transition:background .2s,border-color .2s,transform .2s;
+}
+.subject:hover{background:var(--surface-2);transform:translateY(-2px)}
+.subject .icon{font-size:1.6rem}
+.subject .name{font-weight:700;font-size:.9rem;line-height:1.25}
+
+/* PDF Tarzı Konu Akışı */
+.pdf-container{display:flex;flex-direction:column;gap:24px;margin-top:20px}
+.topic-card{
+  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);
+  border-radius:var(--radius);padding:24px;
+}
+.topic-card h2{font-size:1.2rem;margin-bottom:14px;color:var(--c);display:flex;align-items:center;gap:10px}
+.content-body p{margin-bottom:10px;color:var(--text);white-space:pre-line}
+.content-body ul{margin-left:20px;margin-bottom:10px;color:var(--text)}
+.content-body li{margin-bottom:4px}
+.content-body img{width:100%;max-height:450px;object-fit:contain;border-radius:10px;margin-top:14px;background:#000;border:1px solid var(--line)}
+.exam-box{background:rgba(110,231,183,.10);border:1px solid rgba(110,231,183,.45);border-radius:12px;padding:14px 16px;margin:4px 0 16px;color:#d7fff0}
+.content-body b{color:#b7f7df}
+
+#detail{margin-top:24px}
+.empty-view{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);color:var(--muted);text-align:center;padding:44px 18px;margin-top:24px}
+
+.fade{animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>9/H Sınav Rehberi</h1>
+      <p>Ders seçerek çalışma notlarına ulaş</p>
+    </div>
+  </header>
+
+  <div id="mainContainer">
+    <nav class="grid" id="subjects" aria-label="Dersler"></nav>
+  </div>
+
+  <div id="detail"></div>
+</div>
+
+<script>
+/* ============================================================
+   DERSLER VE İÇERİKLERİ
+   ============================================================ */
+const dersler = [
+  { 
+    id:"muhasebe", ad:"TEMEL MUHASEBE", ikon:"🧾", renk:"#7cc4ff",
+    tip: "pdf",
+    konular:[
+      { 
+        baslik: "1. Muhasebe ve Temel Fonksiyonları", 
+        aciklama: `<b>Muhasebe Nedir?</b>
+Bir işletmenin para ile ilgili işlemlerini kaydeden, sınıflandıran, özetleyen, raporlayan ve analiz eden bilgi sistemidir.
+
+<b>Muhasebenin 4 Temel Fonksiyonu:</b>
+1. Kaydetme: Para ile ilgili işlemleri deftere yazmak.
+2. Sınıflandırma: Benzer işlemleri gruplara ayırmak.
+3. Özetleme ve Raporlama: Bilgileri bilanço ve gelir tablosu gibi raporlara dönüştürmek.
+4. Analiz ve Yorumlama: İşletmenin durumunu inceleyerek değerlendirmek.
+
+<b>Ezber Sıralaması:</b> Kaydet → Sınıflandır → Raporla → Analiz Et
+
+<b>Muhasebe Türleri:</b>
+• Finansal Muhasebe: Mali durumu dışarıya ve yasal kurumlara bildirir.
+• Maliyet Muhasebesi: Ürün veya hizmetlerin maliyetini hesaplar.
+• Yönetim Muhasebesi: Yöneticilerin doğru karar vermesine yardımcı olur.
+• Vergi Muhasebesi: Vergileri hesaplar ve beyannameleri hazırlar.
+
+<b>Muhasebecinin Görevleri:</b>
+• Faturaları ve banka hareketlerini kaydetmek.
+• Maaş bordrolarını ve SGK bildirgelerini hazırlamak.
+• Vergi beyannamelerini düzenlemek.
+• Gelir/gider takibi, bilanço ve gelir tablosu hazırlamak.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "2. Ticaret ve Türleri", 
+        aciklama: `<b>Ticaret Nedir?</b>
+Mal ve hizmetlerin kâr elde etmek amacıyla alınıp satılmasıdır.
+
+<b>Temel Özellikleri:</b> Alım-satım yapılır, kâr hedeflenir, değişim aracı olarak para kullanılır.
+
+<b>Ticaret Türleri:</b>
+1. İç Ticaret: Ülke sınırları içinde yapılan ticaret.
+2. Dış Ticaret: Ülkeler arası ticaret.
+   - <b>İthalat:</b> Yurt dışından mal almak.
+   - <b>İhracat:</b> Yurt dışına mal satmak.
+3. E-Ticaret: İnternet üzerinden yapılan alışveriş.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "3. Tacir ve Kişi Türleri", 
+        aciklama: `<b>Tacir Nedir?</b>
+Bir ticari işletmeyi kısmen de olsa kendi adına işleten kişidir.
+
+<b>Tacir Sınıfları:</b>
+• <b>1. Sınıf Tacir:</b> Yevmiye, Defter-i Kebir, Envanter ve Bilanço Defteri tutar.
+• <b>2. Sınıf Tacir:</b> İşletme Defteri tutar.
+
+<b>Kişi Türleri:</b>
+• <b>Gerçek Kişi:</b> Doğumundan ölümüne kadar hak ve borç sahibi olabilen insandır.
+• <b>Tüzel Kişi:</b> Belirli bir amacı gerçekleştirmek için kurulmuş, kanunlar önünde hak/borç sahibi kuruluşlardır (Şirketler, dernekler, vakıflar).`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "4. Muhasebenin Bilgi Sunduğu Taraflar", 
+        aciklama: `<b>İşletme İçi Taraflar:</b>
+• İşletme çalışanları
+• İşletme sahipleri
+• Malzeme sorumluları
+
+<b>İşletme Dışı Taraflar:</b>
+• Devlet
+• Kredi kuruluşları
+• Tüketiciler
+
+<b>Devlet Neden Kayıtlarla İlgilenir?</b>
+İşletmelerin elde ettiği kazanç üzerinden ödemesi gereken vergilerin doğru hesaplanmasını ve tahsil edilmesini kontrol etmek için.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "5. Vergi Kavramı", 
+        aciklama: `<b>Vergi Nedir?</b>
+Devletin kamu hizmetlerini (eğitim, sağlık, güvenlik vb.) karşılamak için kişilerden kanunlara dayanarak zorunlu ve karşılıksız aldığı paradır.
+
+<b>3 Anahtar Kelime:</b> Zorunlu, Kanuni, Karşılıksız.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "6. Defter Tutma ve Amaçları", 
+        aciklama: `<b>Defter Tutma:</b> İşletmede gerçekleşen parasal işlemlerin belirli bir düzen içerisinde ticari defterlere yazılmasıdır.
+
+<b>Kayıt Kuralı:</b> Ticari belgeye dayanmayan hiçbir işlem muhasebe kaydına alınamaz.
+
+<b>Defter Tutmanın Amaçları:</b>
+• Gelir ve giderleri öğrenmek, kâr/zarar durumunu görmek.
+• Vergileri doğru hesaplamak.
+• Borç ve alacakları takip etmek.
+• Devletin denetimini sağlamak.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "7. Tacir Açısından Defter Tutmanın Önemi", 
+        aciklama: `Defter tutan tacir:
+1. Kâr veya zararını öğrenir.
+2. Malların maliyetini ve satış fiyatını bilir.
+3. Borç ve alacaklarını takip eder.
+4. Ödeyeceği vergiyi öğrenir.
+5. İstatistiksel bilgi elde eder.
+6. Önceki dönemlerle karşılaştırma yapar.
+7. Anlaşmazlıklarda defter ve belgelerini ispat aracı olarak kullanır.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "8. Defter Tutacaklar ve Tutmayacaklar", 
+        aciklama: `<b>Defter Tutacaklar:</b>
+• Ticaret ve sanat erbabı
+• Ticaret şirketleri
+• İktisadi kamu kuruluşları
+• Dernek/vakıflara ait iktisadi işletmeler
+• Serbest meslek sahipleri ve çiftçiler
+
+<b>Defter Tutmayacaklar (VUK 173):</b>
+• Gelir vergisinden muaf esnaf.
+• Gerçek usulde vergiye tabi olmayan çiftçiler.
+• Basit usulde vergilendirilenler.
+• Kurumlar vergisinden muaf kamu, dernek ve vakıf işletmeleri.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "9. Birinci ve İkinci Sınıf Tacirler", 
+        aciklama: `<b>1. Sınıf Tacir:</b>
+• Bilanço esasına göre defter tutar.
+• Defterler: Yevmiye Defteri, Defter-i Kebir, Envanter ve Bilanço Defteri.
+• 2020 Sınırları: Alış > 2.500.000 TL, Satış > 3.500.000 TL, İş Hasılatı > 1.200.000 TL.
+
+<b>2. Sınıf Tacir:</b>
+• İşletme hesabı esasına göre defter tutar.
+• Tutması gereken defter: İşletme Defteri.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "10. Birinci Sınıf Tacirlerin Defter Tanımları", 
+        aciklama: `<b>Yevmiye Defteri (Günlük Defter):</b> İşlemlerin tarih sırasına göre ve maddeler halinde yazıldığı defterdir.
+
+<b>Defter-i Kebir (Büyük Defter):</b> Yevmiye defterine yazılan işlemlerin ilgili hesaplara göre ayrılıp sınıflandırıldığı defterdir.
+
+<b>Envanter ve Bilanço Defteri:</b> Varlıkların, borçların, alacakların ve nakitlerin tek tek kaydedildiği defterdir.
+
+<b>Özet:</b> Yevmiye = Tarih sırası | Kebir = Hesap sınıflandırma | Envanter = Varlık/Borç listesi.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "11. Serbest Meslek Erbabı", 
+        aciklama: `<b>Serbest Meslek Erbabı:</b> Bir işverene bağlı olmadan, kendi adına ve mesleki bilgisiyle çalışan kişidir.
+<b>Örnekler:</b> Avukat, Doktor, Diş Hekimi, Mimar, Mühendis, SMMM.
+
+<b>Tutacakları Defter:</b> Serbest Meslek Kazanç Defteri.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "12. Defter ve Belge Temini", 
+        aciklama: `<b>Defter Temini:</b> Normal defter, bilgisayar ortamı veya Defter Beyan Sistemi üzerinden sağlanır.
+
+<b>Belge Temin Yolları:</b>
+1. Anlaşmalı matbaalar.
+2. Noter tasdiki (Anlaşmasız matbaa basımları için).
+3. Meslek odaları (Basit usul esnaf için).
+4. E-Belge ve E-Defter sistemleri.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "13. Defter Tasdiki (VUK vs TTK)", 
+        aciklama: `<b>Defter Tasdiki:</b> Defterlerin hukuken geçerlilik kazanması için onaylanmasıdır.
+
+<b>VUK'a Göre Tasdik Edilenler:</b> Yevmiye, Envanter, Çiftçi İşletme, İmalat/İstihsal, Yabancı Nakliyat Hasılat Defteri.
+<i>(Önemli: Defter-i Kebir VUK'a göre tasdike tabi DEĞİLDİR.)</i>
+
+<b>TTK'ya Göre Tasdik Edilenler:</b> Yevmiye, Defter-i Kebir, Envanter, Pay Defteri, Yönetim/Müdürler Kurulu Karar Defterleri, Genel Kurul Toplantı Defteri.
+
+<b>Fark:</b> Defter-i Kebir VUK'a göre tasdik edilmez, TTK'ya göre tasdik edilir.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "14. Tasdik Zamanları ve Şekli", 
+        aciklama: `<b>Tasdik Zamanları:</b>
+• Önceki yıldan devam edenler: Aralık ayı sonuna kadar.
+• Yeni işe başlayanlar / Sınıf değiştirenler: İşe başlamadan / değişiklikten önce.
+• Ara Tasdik: Ocak ayı içinde (Ertesi yıl da kullanabilmek için).
+
+<b>Tasdik Yeri:</b> İş yerinin (yoksa ikametgâhın) bulunduğu yerdeki noter.
+<b>Tasdik Şekli:</b> Sıra numarası kontrol edilir, resmi mühür basılır, bilgi formu hazırlanır.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "15. Kayıt Düzeni, Zamanı ve Saklama Süreleri", 
+        aciklama: `<b>Kayıt Düzeni Kuralları:</b>
+• Türkçe tutulur, Türk parası kullanılır.
+• Mürekkepli kalemle yazılır. Hataların üstü tek çizgiyle çizilir (karalama, daksil/beyazlatıcı yasaktır).
+• Sayfa yırtılmaz, boş satır bırakılmaz.
+
+<b>Kayıt Zamanı (Ezber):</b>
+• Genel işlemler: <b>10 gün</b> içinde.
+• Muhasebe fişi kullanılıyorsa: Ana deftere aktarım <b>45 gün</b> içinde.
+• Serbest meslek defteri: <b>Günü gününe</b>.
+
+<b>Saklama Süreleri (Önemli Fark):</b>
+• <b>VUK'a Göre:</b> 5 Yıl
+• <b>TTK'ya Göre:</b> 10 Yıl
+
+<b>Defter Zayi Olursa (Kaybolursa):</b> Yangın, sel vb. durumda <b>15 gün</b> içinde yetkili mahkemeden zayi belgesi istenmelidir.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "16. Dosyalama, Postalama ve Arşivleme", 
+        aciklama: `<b>Dosyalama:</b> Belgelerin belirli sistemle saklanmasıdır. Gelen evrak Gelen Evrak Kayıt Defteri'ne, giden evrak Giden Evrak Kayıt Defteri'ne yazılır.
+
+<b>7 Dosyalama Sistemi:</b> Alfabetik, Kronolojik (tarih), Bölgesel, Numaralı, Konu esaslı, Karma, Sanal.
+
+<b>Postalama Türleri:</b> Normal, Taahhütlü, İadeli Taahhütlü, Özel Ulak (Ekspres), APS, E-Posta.
+
+<b>Arşiv:</b> Belgelerin saklandığı yer/süreçtir. Temel amaç belgeyi korumak ve hızlı ulaşmayı sağlamaktır.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "17. Belediye İşlemleri ve Tacir Sorumlulukları", 
+        aciklama: `<b>Belediye Nedir?</b>
+İl, ilçe ve belde sakinlerinin ortak ihtiyaçlarını karşılamak üzere kurulan ve karar organları tarafından seçilerek oluşturulan idari ve mali yönetme yetkisine sahip kamu tüzel kişisidir.
+
+<b>Tacirlerin Belediyeye Karşı Sorumlulukları:</b>
+1) İş yeri açma ve çalışma ruhsatı alma
+2) Hafta sonu ve tatil çalışma ruhsatı alma
+3) İlan ve reklam vergisi ödeme
+4) Emlak vergisi ödeme
+5) Çevre temizlik vergisi ödeme
+
+<b>1) İş Yeri Açma ve Çalışma Ruhsatı:</b>
+• Yönetmeliklere göre yetkili idarelerce usulüne uygun ruhsat olmadan iş yeri açılamaz ve çalıştırılamaz. Ruhsatsız iş yerleri kapatılır.
+• İlk yapılacak işlem iş yeri sınıfını belirlemektir.
+• Gerekli Belgeler: Başvuru formu, kira kontratı, tapu kaydı, ÇED raporu, vergi levhası, imza sirküleri, itfaiye belgesi ile Ruhsat ve Denetim Müdürlüğü'ne başvurulur.
+• Uygun bulunursa ruhsat verilir ve iş yerinde herkesin görebileceği şekilde asılır.
+
+<b>2) Hafta Sonu ve Tatil Çalışma Ruhsatı:</b>
+• Ulusal bayram günlerinde çalışabilmek için harcı ödenerek alınması gerekir.
+
+<b>3) İlan ve Reklam Vergisi:</b>
+• Belediye sınırları içinde yapılan her türlü ilan ve reklam için ödenir. Bölgenin gelişmişlik düzeyi, reklamın büyüklüğü ve süresine göre belediye meclisince belirlenir.
+
+<b>4) Emlak Vergisi:</b>
+• Bina, arsa ve arazi sahiplerinin ödediği vergidir. Türkiye'de taşınmaz sahibi olan herkes ödemek zorundadır.
+• Tapu fotokopisi, adres ve kimlik bilgisi ile belediyeye başvurulup beyanname doldurulur.
+• İki eşit taksitte <b>Mayıs ve Kasım</b> aylarında ödenir (İstenirse tamamı Mayıs'ta ödenebilir).
+
+<b>5) Çevre Temizlik Vergisi:</b>
+• Konut, iş yeri ve diğer yapıları kullananların çevreye verdiği zararı karşılamak için ödediği vergidir.
+• Konutlarda su faturalarına yansıtılır, iş yerlerinde ise bildirge verilir.
+• İki eşit taksitte <b>Mayıs ve Kasım</b> aylarında ödenir.`, 
+        gorsel: "" 
+      },
+      { 
+        baslik: "18. Sınav İçin Hızlı Ezber Tablosu", 
+        aciklama: `• <b>Muhasebe Fonksiyonları:</b> Kaydet, Sınıflandır, Raporla, Analiz Et
+• <b>Ticaretin Amacı:</b> Kâr elde etmek
+• <b>İthalat:</b> Mal almak | <b>İhracat:</b> Mal satmak
+• <b>1. Sınıf Tacir Defterleri:</b> Yevmiye, Kebir, Envanter
+• <b>2. Sınıf Tacir Defteri:</b> İşletme Defteri
+• <b>Yevmiye:</b> Günlük kayıt | <b>Kebir:</b> Sınıflandırma | <b>Envanter:</b> Varlık/Borç listesi
+• <b>Serbest Meslek Defteri:</b> Serbest Meslek Kazanç Defteri
+• <b>İbraz:</b> Defterleri incelemeye sunma
+• <b>Kayıt Süresi:</b> 10 gün | <b>Fişten Aktarım:</b> 45 gün | <b>Serbest Meslek:</b> Günü gününe
+• <b>Saklama Süresi:</b> VUK = 5 Yıl, TTK = 10 Yıl
+• <b>Defter Kaybı Başvuru Süresi:</b> 15 gün
+• <b>Emlak ve Çevre Temizlik Vergisi Ödemeleri:</b> Mayıs ve Kasım (2 taksit)`, 
+        gorsel: "" 
+      }
+    ]
+  },
+  { 
+    id:"cografya", ad:"COĞRAFYA (Maarif Modeli)", ikon:"🌍", renk:"#6ee7b7",
+    tip: "pdf",
+    konular:[
+      { 
+        baslik: "📌 SINAV KAPSAMI — SENARYO 2 (Sayfa 9–60)",
+        aciklama: `<div class="exam-box"><b>Bu rehber, 1. dönem 1. yazılı Senaryo 2'ye göre düzenlendi.</b><br>Öncelik sırası: Coğrafyanın konusu ve bölümleri → Haritalar → Coğrafyanın gelişimi → Coğrafya öğrenmenin önemi → Türkiye'nin coğrafi konumu.</div>
+<b>Önemli uyarı:</b> Öğretmenin sınıfta ayrıca işaretlediği özel şekil veya sayfalar varsa onları da mutlaka çalış. Aşağıdaki sayfa aralıkları kitabın bölüm başlıklarına göre verilmiştir.
+
+<b>Hızlı sayfa haritası:</b>
+• Coğrafyanın doğası: 12–15
+• Coğrafyanın konusu ve bölümleri: 16–20
+• Niçin coğrafya öğrenmeliyiz?: 21–23
+• Coğrafyanın gelişimi: 24–28
+• Haritalar: 35–58
+• Türkiye'nin coğrafi konumu: 59–60`,
+        gorsel: ""
+      },
+      {
+        baslik: "1. Coğrafya Biliminin Konusu ve Bölümleri — Sayfa 12–20",
+        aciklama: `<b>Coğrafya:</b> Doğal çevre ile insan arasındaki etkileşimi; olayların yeryüzündeki dağılışını, nedenlerini ve sonuçlarını inceleyen bilim dalıdır.
+
+<b>Coğrafyanın temel ilkeleri:</b>
+• <b>Dağılış:</b> Bir olayın nerelerde görüldüğünü açıklar.
+• <b>Nedensellik:</b> Bir olayın neden meydana geldiğini araştırır.
+• <b>İlişki:</b> Doğal ve beşerî olayların birbirini nasıl etkilediğini inceler.
+
+<b>Fiziki coğrafya:</b> Doğal ortamı inceler. Jeomorfoloji (yer şekilleri), klimatoloji (iklim), hidrografya (sular), biyocoğrafya (canlılar) ve toprak coğrafyası bu bölümdedir.
+
+<b>Beşerî coğrafya:</b> İnsan ve faaliyetlerini inceler. Nüfus, yerleşme, ekonomik, siyasi, kültürel ve ulaşım coğrafyası bu bölümdedir.
+
+<b>Ezber:</b> Fiziki = doğal çevre | Beşerî = insan ve faaliyetleri`,
+        gorsel: ""
+      },
+      {
+        baslik: "2. Niçin Coğrafya Öğrenmeliyiz? — Sayfa 21–23",
+        aciklama: `Coğrafya öğrenmek; yaşadığımız çevreyi tanımamızı, doğal afetlere karşı hazırlıklı olmamızı, doğal kaynakları bilinçli kullanmamızı ve çevre sorunlarını anlamamızı sağlar.
+
+<b>Mekânsal düşünme:</b> Bir olayın sadece ne olduğunu değil; nerede gerçekleştiğini, neden orada gerçekleştiğini ve çevresini nasıl etkilediğini birlikte değerlendirmektir.
+
+<b>Sınav bağlantısı:</b> Bir yerleşmenin neden kıyıda kurulduğu veya bir tarım ürününün neden belirli bölgelerde yetiştiği sorulursa konum, doğal koşullar ve insan faaliyetleri arasındaki ilişki kurulmalıdır.`,
+        gorsel: ""
+      },
+      {
+        baslik: "3. Coğrafya Biliminin Gelişimi — Sayfa 24–28",
+        aciklama: `Coğrafya; insanların çevreyi tanıma, yerleri kaydetme, seyahat etme ve harita hazırlama çabalarıyla gelişmiştir.
+
+• <b>Eratosthenes:</b> Coğrafya kelimesini kullanan ve Dünya'nın çevresini hesaplayan bilim insanıdır.
+• <b>Strabon:</b> Bölgeleri ve toplumları anlatan coğrafi eserler yazmıştır.
+• <b>Batlamyus:</b> Haritacılık ve koordinat sistemi üzerine çalışmıştır.
+• <b>Birûnî:</b> Dünya'nın ölçülmesi ve coğrafi konum konusunda çalışmalar yapmıştır.
+• <b>İdrisî:</b> Harita ve bölgesel coğrafya çalışmalarında önemlidir.
+• <b>Pîrî Reis:</b> Denizcilik ve dünya haritalarıyla tanınır.
+
+<b>Coğrafyanın gelişmesini sağlayanlar:</b> Keşifler, denizcilik, haritacılık, gözlem araçları ve günümüzde uydu teknolojileri.`,
+        gorsel: ""
+      },
+      {
+        baslik: "4. Harita ve Haritanın Unsurları — Sayfa 35–44",
+        aciklama: `<b>Harita:</b> Yeryüzünün tamamının veya bir bölümünün kuş bakışı görünüşünün, belirli bir ölçekle küçültülerek düzleme aktarılmasıdır.
+
+<b>Harita olması için:</b> Kuş bakışı görünüş, ölçek ve düzleme aktarma şarttır. Kroki ölçekli olmadığı için harita değildir.
+
+<b>Haritanın temel unsurları:</b>
+• Başlık: Haritanın konusunu gösterir.
+• Ölçek: Gerçek uzunlukların ne kadar küçültüldüğünü gösterir.
+• Lejant: Renk ve sembollerin anlamını açıklar.
+• Yön oku: Yönleri gösterir.
+• Koordinatlar: Konum belirlemeye yarar.
+
+<b>Harita türleri:</b> Fiziki, siyasi, beşerî, ekonomik ve özel amaçlı haritalar.`,
+        gorsel: ""
+      },
+      {
+        baslik: "5. Ölçek ve Harita Okuma — Sayfa 45–58",
+        aciklama: `<b>Büyük ölçekli harita:</b> Dar alanı gösterir, ayrıntısı fazladır, küçültme oranı ve paydası küçüktür.
+<b>Küçük ölçekli harita:</b> Geniş alanı gösterir, ayrıntısı azdır, küçültme oranı ve paydası büyüktür.
+
+<b>Akılda tut:</b> Büyük ölçek = büyük ayrıntı. Küçük ölçek = küçük ayrıntı.
+
+<b>İzohips:</b> Aynı yükseltiye sahip noktaları birleştiren eğrilerdir. İzohipsler birbirini kesmez; sıklaştıkça eğim artar, seyrekleştikçe eğim azalır. İç içe kapalı eğriler genellikle tepeyi gösterir.
+
+<b>Profil:</b> Arazinin belirli bir hat boyunca yandan görünüşünü gösteren kesittir.
+
+<b>Önemli ayrım:</b> Harita üzerindeki renk ve sembollerin anlamı kesin olarak lejanttan okunur; yalnızca renge bakarak yorum yapılmaz.`,
+        gorsel: ""
+      },
+      {
+        baslik: "6. Türkiye'nin Coğrafi Konumu — Sayfa 59–60",
+        aciklama: `<b>Matematik konum:</b> Bir yerin paralel ve meridyenlerle belirtilen konumudur. Türkiye yaklaşık olarak 36°–42° Kuzey paralelleri ile 26°–45° Doğu meridyenleri arasındadır.
+
+<b>Matematik konum sonuçları:</b>
+• Türkiye Kuzey Yarım Küre ve orta kuşaktadır.
+• Dört mevsim belirgin yaşanır.
+• Güneş ışınları Türkiye'ye hiçbir zaman dik gelmez.
+• Güneyden kuzeye gidildikçe sıcaklık genel olarak azalır.
+• Doğu ile batı arasında yerel saat farkı vardır.
+
+<b>Özel konum:</b> Bir yerin denizlere, kıtalara, boğazlara, komşu ülkelere ve ulaşım yollarına göre konumudur.
+
+Türkiye'nin özel konum sonuçları: Asya ile Avrupa arasında köprü olması, üç tarafının denizlerle çevrili olması, İstanbul ve Çanakkale Boğazlarına sahip olması, ulaşım-ticaret yolları üzerinde bulunması ve jeopolitik öneminin yüksek olmasıdır.
+
+<b>Karıştırma:</b> Enlem-boylam = matematik konum. Deniz, kıta, boğaz ve komşular = özel konum.`,
+        gorsel: ""
+      },
+      {
+        baslik: "✅ Son Tekrar — Senaryo 2 İçin Ezber Kartı",
+        aciklama: `<b>Coğrafyanın 3 ilkesi:</b> Dağılış – Nedensellik – İlişki
+<b>Fiziki coğrafya:</b> Doğal çevre
+<b>Beşerî coğrafya:</b> İnsan ve faaliyetleri
+<b>Harita:</b> Kuş bakışı + ölçek + düzlem
+<b>Lejant:</b> Sembol ve renklerin açıklaması
+<b>Büyük ölçek:</b> Dar alan, fazla ayrıntı
+<b>Küçük ölçek:</b> Geniş alan, az ayrıntı
+<b>İzohips:</b> Aynı yükselti eğrisi
+<b>Matematik konum:</b> Paralel ve meridyen
+<b>Özel konum:</b> Deniz, kıta, boğaz, komşu ve ulaşım yolları
+
+<div class="exam-box"><b>Senaryo 2 odak noktası:</b> Coğrafyanın konusu ve bölümleri ile harita konusu en yüksek önceliktedir. Bu iki bölümü bitirmeden diğer ayrıntılara geçme.</div>`,
+        gorsel: ""
+      }
+    ]
+  },
+  { 
+    id:"edebiyat", ad:"TÜRK DİLİ VE EDEBİYATI", ikon:"📖", renk:"#fda4af",
+    tip: "pdf", konular:[
+      {
+        baslik: "📌 EDEBİYAT SINAV KAPSAMI — TÜM SENARYOLAR",
+        aciklama: `<div class="exam-box"><b>MEB tablosunda iki farklı ortak yazılı dönemi bulunuyor.</b><br>Öğretmenin seçtiği senaryoya göre aşağıdaki soru dağılımından ilgili olanı çalış.</div>
+<b>1. Dönem 1. Ortak Yazılı:</b> Sözün İnceliği ve Anlam Arayışı temaları işleniyor. Sorular verilen şiir, deneme, hikâye veya anı metni üzerinden gelebilir.
+
+<b>Kaynak:</b> MEB 9. Sınıf Türk Dili ve Edebiyatı Ders Kitabı ve MEB konu-soru dağılım tablosu.
+<br><br><a href="https://tymm.meb.gov.tr/upload/kitap/turk_dili_ve_edebiyati_9.pdf" target="_blank" style="color:#fda4af">MEB 9. Sınıf Edebiyat Ders Kitabı</a>`,
+        gorsel: ""
+      },
+      {
+        baslik: "📊 MEB Senaryo Soru Dağılımı",
+        aciklama: `<b>1. Dönem 1. Ortak Yazılı</b>
+• Senaryo 1: Sözün İnceliği okuma 4 + yazma 1; Anlam Arayışı okuma 3 = <b>8 soru</b>
+• Senaryo 2: Sözün İnceliği okuma 5 + yazma 1; Anlam Arayışı okuma 4 = <b>10 soru</b>
+• Senaryo 3: Sözün İnceliği okuma 6 + yazma 1; Anlam Arayışı okuma 4 = <b>11 soru</b>
+
+<b>Dağılımı nasıl yorumlamalısın?</b> Soru sayısı fazla olan tema önceliklidir; ancak yazma kazanımı bütün senaryolarda bulunduğu için şiiri betimleme paragrafına dönüştürme çalışması her durumda yapılmalıdır.`,
+        gorsel: ""
+      },
+      {
+        baslik: "1. Sözün İnceliği — Okuma",
+        aciklama: `<b>Tema içeriği:</b> Şiir ve deneme.
+
+<b>Şiir incelenirken sorulabilecekler:</b>
+• Tema ve konu
+• Ana duygu
+• Şiirin söyleyicisi ve hitap edilen kişi/varlık
+• Şiirde kullanılan imgeler ve çağrışımlar
+• Söz sanatları
+• Ahenk unsurları
+• Şiirin yazılış amacı ve okuyucuda oluşturduğu etki
+
+<b>Deneme incelenirken:</b>
+• Yazarın ele aldığı konu
+• Ana düşünce ve yardımcı düşünceler
+• Yazarın kişisel görüşü
+• Kanıtlama zorunluluğu olup olmadığı
+• Anlatımın samimi, sohbet havasında ve kişisel olup olmadığı
+
+<b>Şiir ile deneme farkı:</b> Şiirde duygu, imge ve ahenk öne çıkar. Denemede yazarın herhangi bir konuda kesin hüküm vermeden kişisel düşüncelerini paylaşması öne çıkar.`,
+        gorsel: ""
+      },
+      {
+        baslik: "2. Şiirde Temel Kavramlar",
+        aciklama: `<b>Konu:</b> Şiirde anlatılan olay, durum veya düşüncedir.
+<b>Tema:</b> Şiirde işlenen genel ve soyut duygudur. Sevgi, yalnızlık, ölüm, özgürlük ve vatan gibi.
+<b>Ana duygu:</b> Şiirin okuyucuda oluşturmak istediği temel duygudur.
+<b>Söyleyici:</b> Şiirde konuşan, duygu ve düşünceleri aktaran kişidir. Her zaman şairin kendisi değildir.
+<b>İmge:</b> Bir kelime veya sözün zihinde oluşturduğu özgün tasarım ve çağrışımdır.
+<b>Çağrışım:</b> Bir kelimenin okurun zihninde uyandırdığı ek anlamlardır.
+
+<b>Konu–tema ayrımı:</b> “Şairin çocukluğunu anlatması” konu olabilir; “özlem” ise temadır.`,
+        gorsel: ""
+      },
+      {
+        baslik: "3. Şiirde Ahenk ve Söz Sanatları",
+        aciklama: `<b>Ahenk:</b> Şiirde seslerin, kelimelerin ve ritmin oluşturduğu uyumdur.
+
+<b>Ahenk unsurları:</b>
+• Ölçü
+• Kafiye ve redif
+• Aliterasyon: Ünsüz seslerin tekrarı
+• Asonans: Ünlü seslerin tekrarı
+• Kelime ve ses tekrarları
+
+<b>Yaygın söz sanatları:</b>
+• <b>Benzetme:</b> Aralarında benzerlik bulunan iki varlıktan zayıf olanı güçlü olana benzetme.
+• <b>Kişileştirme:</b> İnsan dışındaki varlıklara insan özelliği verme.
+• <b>Konuşturma:</b> İnsan dışındaki varlıkları konuşturma.
+• <b>Abartma:</b> Bir durumu olduğundan çok büyük veya küçük gösterme.
+• <b>Tezat:</b> Karşıt kavramları birlikte kullanma.
+
+<b>Soru çözme yöntemi:</b> Önce sözün gerçek anlamda mı kullanıldığına bak. İnsan özelliği verilen bir varlık varsa kişileştirme; karşılaştırma varsa benzetme ihtimalini değerlendir.`,
+        gorsel: ""
+      },
+      {
+        baslik: "4. Sözün İnceliği — Yazma",
+        aciklama: `<b>Görev:</b> Okunan bir şiiri betimleme paragrafına dönüştürme.
+
+<b>Betimleme:</b> Bir varlığı, yeri veya durumu okuyucunun zihninde canlanacak biçimde anlatmaktır.
+
+<b>İyi bir betimleme paragrafında:</b>
+• Şiirdeki temel duygu korunur.
+• Görme, işitme, koklama, dokunma ve tatma duyularından yararlanılır.
+• Sıfatlar ve niteleyici kelimeler kullanılır.
+• Paragrafın bir ana düşüncesi olur.
+• Cümleler arasında anlam bütünlüğü bulunur.
+• Yazım ve noktalama kurallarına uyulur.
+
+<b>Yazma planı:</b> Konuyu ve ana duyguyu belirle → Kullanacağın ayrıntıları seç → Giriş-gelişme-sonuç düzeninde yaz → Yazım, noktalama ve anlatımı kontrol et.`,
+        gorsel: ""
+      },
+      {
+        baslik: "5. Anlam Arayışı — Okuma",
+        aciklama: `<b>Tema içeriği:</b> Hikâye ve anı.
+
+<b>Hikâyenin yapı unsurları:</b>
+• Olay örgüsü
+• Kişiler
+• Zaman
+• Mekân
+• Anlatıcı
+• Bakış açısı
+• Tema ve konu
+
+<b>Anı:</b> Yazarın geçmişte yaşadığı veya tanık olduğu olayları, üzerinden zaman geçtikten sonra kendi bakış açısıyla anlattığı yazı türüdür.
+
+<b>Hikâye–anı farkı:</b> Hikâye kurmaca olabilir; anı yaşanmış veya tanıklık edilmiş olaylara dayanır. Anıda yazarın kişisel bakışı ve geçmişe dönük değerlendirmeleri belirgindir.`,
+        gorsel: ""
+      },
+      {
+        baslik: "6. Hikâye ve Anıda Metin Çözümleme",
+        aciklama: `<b>Olay örgüsü:</b> Metindeki olayların neden-sonuç ilişkisi içinde sıralanmasıdır.
+<b>Şahıs kadrosu:</b> Olaydaki kişilerin özellikleri ve birbirleriyle ilişkileridir.
+<b>Zaman:</b> Olayın gerçekleştiği dönem, mevsim, gün veya süredir.
+<b>Mekân:</b> Olayın gerçekleştiği yerdir. Açık veya kapalı olabilir.
+<b>Anlatıcı:</b> Olayı okuyucuya aktaran kişidir.
+<b>Bakış açısı:</b> Anlatıcının olayları görme ve aktarma biçimidir.
+
+<b>Bakış açıları:</b>
+• <b>Kahraman anlatıcı:</b> Olayın içindeki kişi “ben” diliyle anlatır.
+• <b>Gözlemci anlatıcı:</b> Sadece gördüğü ve bildiği kadarını aktarır.
+• <b>İlahi/hâkim anlatıcı:</b> Kişilerin iç dünyasını, geçmişini ve geleceğini bilir.
+
+<b>Sınav taktiği:</b> Metni okurken önce “Kim, nerede, ne zaman, ne yaşadı?” sorularını cevapla. Ardından anlatıcıyı ve metnin ana düşüncesini bul.`,
+        gorsel: ""
+      },
+      {
+        baslik: "✅ Edebiyat Tüm Senaryolar — Son Tekrar",
+        aciklama: `<b>Şiir:</b> Tema, konu, ana duygu, söyleyici, imge, ahenk, söz sanatları
+<b>Deneme:</b> Kişisel düşünce, samimi anlatım, kesin kanıtlama zorunluluğunun olmaması
+<b>Betimleme:</b> Varlığı veya durumu ayrıntılarıyla zihinde canlandırma
+<b>Hikâye:</b> Olay örgüsü, kişi, zaman, mekân, anlatıcı, bakış açısı
+<b>Anı:</b> Yaşanmış veya tanık olunmuş olayların sonradan anlatılması
+<b>Kahraman anlatıcı:</b> Ben dili
+<b>Gözlemci anlatıcı:</b> Gördüğü kadarını bilir
+<b>İlahi anlatıcı:</b> Her şeyi bilir
+
+<div class="exam-box"><b>Tüm senaryolarda ortak güvenli çalışma:</b> Şiirde tema, ana duygu, imge, ahenk ve söz sanatlarını; hikâye ve anıda olay örgüsü, kişi, zaman, mekân, anlatıcı ve bakış açısını gösterebilmek. Ayrıca verilen şiiri betimleme paragrafına dönüştürme pratiği yapmak.</div>`,
+        gorsel: ""
+      }
+    ]
+  },
+  { 
+    id:"din", ad:"DİN KÜLTÜRÜ", ikon:"🕌", renk:"#fcd34d",
+    tip: "pdf", konular:[
+      {
+        baslik: "📌 DİN KÜLTÜRÜ — 1. SENARYO SINAV REHBERİ",
+        aciklama: `<div class="exam-box"><b>Sınav kapsamı:</b> Öğretmenin belirttiği sayfalar 15, 16, 17, 19, 21, 22, 23, 24, 47, 48, 49. Sınav öncesi ayrıca 32, 33, 34 ve 35. sayfalar okunacak.</div>
+<b>Sınav:</b> 6 soru. Bunun 2 sorusunu öğretmen hazırlıyor, 2 soru önceden verildi. Kalan sorular için sayfa notlarını ve temel kavramları çalış.
+
+<b>Özellikle bil:</b> Tasdik, tevhit, şirk ve iman kavramları; İslam dininde bilgiye ulaşmanın kaynakları; insanı diğer varlıklardan ayıran özellikler.`,
+        gorsel: ""
+      },
+      {
+        baslik: "📝 Hocanın Verdiği Sorular — Hazır Cevaplar",
+        aciklama: `<b>Soru 1: İslam dininde bilgiye ulaşmada temel kaynaklardan 3 tanesini yazınız.</b>
+<b>Cevap:</b> Vahiy, akıl ve duyular.
+
+• <b>Vahiy:</b> Allah'ın peygamberleri aracılığıyla insanlara gönderdiği ilahî bilgidir.
+• <b>Akıl:</b> İnsanların düşünmesini, anlamasını, doğru ile yanlışı ayırt etmesini sağlayan yetidir.
+• <b>Duyular:</b> Görme, işitme, dokunma, koklama ve tatma yoluyla bilgi edinmemizi sağlar.
+
+<b>Soru 2: İnsanı diğer varlıklardan ayıran temel özellikler nelerdir? Kısaca açıklayınız.</b>
+<b>Cevap:</b> İnsan; akıl, irade, düşünme, öğrenme, konuşma, yazma, üretme, sorumluluk alma ve tercih yapabilme özellikleriyle diğer varlıklardan ayrılır. İnsan doğru ile yanlışı ayırt edebilir ve tercihlerinden sorumlu tutulur.`,
+        gorsel: ""
+      },
+      {
+        baslik: "1. Bilgiye Ulaşma Yolları — Sayfa 15–24",
+        aciklama: `<b>İslam'a göre bilginin temel kaynakları:</b>
+• <b>Vahiy:</b> Allah'ın peygamberlerine bildirdiği ve insanlara ulaştırılan ilahî bilgi.
+• <b>Akıl:</b> Düşünme, anlama, değerlendirme ve doğruyu yanlıştan ayırma gücü.
+• <b>Duyular:</b> Dış dünyayı gözlemlememizi ve deneyimlememizi sağlayan görme, işitme, dokunma, koklama ve tatma duyuları.
+
+<b>Akıl yürütme:</b> Bilinen bilgilerden hareket ederek bilinmeyen hakkında sonuca ulaşmaktır.
+<b>Doğru bilgi:</b> Gerçeğe uygun, güvenilir ve tutarlı bilgidir.
+
+<b>Önemli:</b> Akıl ve duyular sınırlıdır. Vahiy, insanın tek başına ulaşamayacağı inanç ve gayb alanlarında yol gösterir.`,
+        gorsel: ""
+      },
+      {
+        baslik: "2. İnsanın Özellikleri — Sayfa 15–24",
+        aciklama: `İnsan, bilgi edinme ve öğrenme özellikleriyle öne çıkar.
+
+• <b>Akıl:</b> Düşünme, kavrama ve değerlendirme yetisidir.
+• <b>İrade:</b> Bir davranışı seçme ve tercih etme gücüdür.
+• <b>Sorumluluk:</b> Yapılan tercihlerin sonuçlarını üstlenmektir.
+• <b>Öğrenme:</b> Bilgi edinip bunu davranışa dönüştürebilmektir.
+• <b>Konuşma ve yazma:</b> Düşünceleri anlamlı biçimde aktarabilmektir.
+• <b>Tefekkür:</b> Varlıklar ve olaylar üzerinde derinlemesine düşünmektir.
+
+İnsan, akıl ve iradesi sayesinde tercihte bulunur. Bu nedenle davranışlarından sorumlu tutulur.`,
+        gorsel: ""
+      },
+      {
+        baslik: "3. Temel İnanç Kavramları — Sayfa 47–49",
+        aciklama: `<b>İman:</b> Allah'ın varlığına ve birliğine, Hz. Muhammed'in peygamberliğine ve onun Allah'tan getirdiği esaslara kalp ile inanıp tasdik etmektir.
+
+<b>Tasdik:</b> Bir şeyi doğru kabul etme, onaylama ve doğrulama anlamına gelir. İman açısından kalbin inanıp kabul etmesidir.
+
+<b>Tevhit:</b> Allah'ın zatında, sıfatlarında ve fiillerinde bir ve eşsiz olduğuna inanmaktır. Kısaca Allah'ın bir olduğuna inanmak demektir.
+
+<b>Şirk:</b> Allah'a ortak koşmak, Allah'a ait özellikleri başka varlıklara vermek veya Allah'tan başka ilahlar kabul etmektir.
+
+<b>Mümin:</b> İman eden kişidir.
+<b>Müşrik:</b> Allah'a ortak koşan kişidir.
+
+<b>Karıştırma:</b> Tevhit birliktir; şirk ortak koşmaktır. Tasdik doğrulamaktır; iman ise inanç ve kabulü ifade eder.`,
+        gorsel: ""
+      },
+      {
+        baslik: "4. İman ve İmanın Mahiyeti — Sayfa 47–49",
+        aciklama: `<b>İmanın temel özellikleri:</b>
+• Kalp ile tasdik edilir.
+• Dil ile ikrar edilebilir.
+• İnanılması gereken esasları kapsar.
+• İnsan davranışlarına ve ahlakına yansır.
+
+<b>İmanın konusu:</b> Allah'a, meleklere, kitaplara, peygamberlere, ahiret gününe ve kadere iman gibi temel inanç esaslarıdır.
+
+<b>İman–amel ilişkisi:</b> İman kalpteki inançtır; amel ise bu inancın davranışlara yansımasıdır. İman eden kişinin güzel davranışlar sergilemesi beklenir.
+
+<b>Sınav cümlesi:</b> Tevhit inancı insanı Allah'a kulluğa yöneltirken şirk bu inancın zıddıdır.`,
+        gorsel: ""
+      },
+      {
+        baslik: "5. Sınav Öncesi Okunacak Sayfalar — 32–35",
+        aciklama: `<b>Bu sayfaları hızlı geçme:</b> Öğretmenin özellikle sınavdan önce okunmasını istemiş.
+
+Okurken şu başlıklara dikkat et:
+• Metnin ana fikri ve verdiği mesaj
+• Geçen temel dinî kavramların anlamı
+• Ayet ve hadislerin hangi düşünceyi desteklediği
+• Bilgi, insan, akıl, vahiy ve sorumluluk arasındaki ilişki
+• Metinlerde geçen örneklerin neyi açıklamak için verildiği
+
+<div class="exam-box"><b>Çalışma yöntemi:</b> 32–35. sayfaları bir kez normal oku. İkinci okumada tanım, ayet/hadis mesajı ve sonuç cümlelerini not al.</div>`,
+        gorsel: ""
+      },
+      {
+        baslik: "✅ Din Kültürü — Son Tekrar Kartı",
+        aciklama: `<b>Vahiy:</b> Allah'ın peygamberlere bildirdiği ilahî bilgi.
+<b>Akıl:</b> Düşünme ve doğruyu yanlıştan ayırma gücü.
+<b>Duyular:</b> Dış dünyadan bilgi edinme yolları.
+<b>Tasdik:</b> Doğru kabul etme, onaylama.
+<b>İman:</b> İnanç esaslarını kalben kabul etme.
+<b>Tevhit:</b> Allah'ın bir ve eşsiz olduğuna inanma.
+<b>Şirk:</b> Allah'a ortak koşma.
+<b>Mümin:</b> İman eden kişi.
+<b>Müşrik:</b> Allah'a ortak koşan kişi.
+
+<div class="exam-box"><b>Kesin hazırlan:</b> Hocanın verdiği iki sorunun cevaplarını ezberlemekle kalma; “vahiy, akıl, duyular” ile “akıl, irade ve sorumluluk” arasındaki ilişkiyi açıklayabilecek şekilde öğren.</div>`,
+        gorsel: ""
+      }
+    ]
+  },
+  { 
+    id:"dil", ad:"YABANCI DİL", ikon:"🗣️", renk:"#c4b5fd",
+    tip: "pdf", konular:[
+      {
+        baslik: "📌 9. SINIF İNGİLİZCE — 1. DÖNEM 1. YAZILI",
+        aciklama: `<div class="exam-box"><b>MEB 9. sınıf İngilizce ders kitabına göre 0–19. sayfalar hazırlanmıştır.</b><br>Bu bölümde yalnızca işlediğiniz ilk konu olan Theme 1: School Life bulunuyor.</div>
+<b>Çalışma alanı:</b> Ülkeler, milletler, diller, başkentler, turistik yerler, ulusal günler ve bu konularla ilgili temel İngilizce cümleler.
+
+<b>Sınavda dikkat:</b> Yalnızca kelime ezberi yetmez. Kelimeleri metin içinde anlamayı, okuma parçasında ana fikir ve ayrıntı bulmayı ve doğru cümle kurmayı çalış.
+
+<b>Kaynak:</b> MEB 9. Sınıf İngilizce Ders Kitabı ve Türkiye Yüzyılı Maarif Modeli İngilizce Dersi Öğretim Programı.
+<br><br><a href="https://tymm.meb.gov.tr/assets/pdf/ingilizce-dersi-9-sinif-ders-kitabi.pdf" target="_blank" style="color:#c4b5fd">MEB 9. Sınıf İngilizce Ders Kitabı</a>`,
+        gorsel: ""
+      },
+      {
+        baslik: "1. Theme: School Life",
+        aciklama: `<b>Konular:</b>
+• Different countries, nationalities and languages
+• Countries' capitals and tourist attractions
+• Activities in capitals and countries
+• National days and celebrations
+
+<b>Kelime alanları:</b> country, nationality, language, capital city, tourist attraction, palace, tower, bridge, square, museum, festival, celebration, traditional, historical, famous, visit, explore, travel, take a boat trip.
+
+<b>Önemli ülke–millet–dil örnekleri:</b>
+Türkiye – Turkish – Turkish | Japan – Japanese – Japanese | France – French – French | Germany – German – German | Spain – Spanish – Spanish | Italy – Italian – Italian | China – Chinese – Chinese | South Korea – Korean – Korean.
+
+<b>Okuma sorularında:</b> Ülke, başkent, millet, konuşulan dil, turistik yer ve yapılan etkinlik eşleştirmelerine dikkat et. Metnin ana fikrini ve özel bilgilerini bul.`,
+        gorsel: ""
+      },
+      {
+        baslik: "2. Theme 1 Grammar and Useful Expressions",
+        aciklama: `<b>To be — am / is / are</b>
+• I am Turkish. / I am from Türkiye.
+• She is Japanese. / She is from Japan.
+• They are exchange students.
+• What is your nationality? — I am Turkish.
+• Where are you from? — I am from Türkiye.
+
+<b>Can / can’t</b>
+• I can speak Turkish.
+• She can speak Japanese.
+• Tourists can visit the palace.
+• They can’t enter the museum today.
+
+<b>Can kullanımı:</b> Yetenek, yapılabilen etkinlik veya imkân anlatır. Can’den sonra fiilin yalın hâli gelir: <b>can visit</b>, <b>can speak</b>. “Can speaks” veya “can to speak” yanlıştır.
+
+<b>Useful expressions:</b> Hello! Hi there! Let me introduce myself. This is … from Türkiye. I like it here. Let’s chat about … Let’s grab our trays!`,
+        gorsel: ""
+      },
+      {
+        baslik: "3. Yazma ve Okuma Sınav Taktiği — Sayfa 0–19",
+        aciklama: `<b>Ülke tanıtma paragrafı için:</b>
+This is Japan. The capital city is Tokyo. People speak Japanese. It is famous for its historical places. Tourists can visit temples and museums.
+
+<b>Okuma yöntemi:</b>
+1. Önce başlık ve görsellerden konuyu tahmin et.
+2. Sorularda geçen özel isim, ülke, millet, dil ve başkentleri metinde tara.
+3. Ana fikri bulmak için metnin tamamını oku.
+4. Cevabı metne göre ver; kendi bilgini ekleme.
+5. am/is/are ve can/can’t kullanımını son kez kontrol et.
+
+<div class="exam-box"><b>Not:</b> Sınıf panosunda asılı olan kâğıt, öğretmeninizin sınıfa özel olarak belirlediği ek kelime, sayfa veya soru tarzlarını içerebilir. </div>`,
+        gorsel: ""
+      },
+      {
+        baslik: "✅ İngilizce Son Tekrar Kartı — Sayfa 0–19",
+        aciklama: `<b>Theme 1:</b> Countries – nationalities – languages – capitals – tourist attractions – celebrations
+<b>Grammar:</b> am/is/are, can/can’t
+<b>En kritik ayrım:</b> am/is/are özneye göre değişir. Can’den sonra fiilin yalın hâli gelir.
+<b>Writing:</b> Bir ülkeyi, başkentini, dilini ve turistik yerlerini tanıtan kısa paragraf yazabil.
+<b>Reading:</b> Ana fikir, ülke, millet, dil, başkent, turistik yer ve etkinlik bilgilerini bulabil.`,
+        gorsel: ""
+      }
+    ]
+  }
+];
+
+const nav = document.getElementById("subjects");
+const detail = document.getElementById("detail");
+
+function kac(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
+function dersSec(id){
+  const ders = dersler.find(d => d.id === id);
+  if(!ders) return;
+
+  nav.style.display = "none";
+  detail.className = "fade";
+  detail.style.setProperty("--c", ders.renk);
+
+  if(ders.tip === "pdf"){
+    let html = '<button type="button" class="back-btn" id="geriDon">← Derslere Dön</button>';
+    html += '<div style="margin-bottom:20px"><h2 style="color:'+ders.renk+';font-size:1.6rem;">'+ders.ikon+' '+ders.ad+' Sınav Rehberi</h2><p style="color:var(--muted)">Tüm konular tek sayfada çalışma notu formatında</p></div>';
+    html += '<div class="pdf-container">';
+    
+    ders.konular.forEach(k => {
+      let gorselHtml = k.gorsel ? '<img src="'+k.gorsel+'" alt="Konu Görseli">' : '';
+      html += 
+        '<div class="topic-card" style="border-left-color:'+ders.renk+'">'+
+          '<h2 style="color:'+ders.renk+'">'+k.baslik+'</h2>'+
+          '<div class="content-body">'+
+            '<p>'+k.aciklama+'</p>'+
+            gorselHtml+
+          '</div>'+
+        '</div>';
+    });
+    
+    html += '</div>';
+    detail.innerHTML = html;
+  } else {
+    detail.innerHTML = 
+      '<button type="button" class="back-btn" id="geriDon">← Derslere Dön</button>'+
+      '<div class="empty-view"><h2>'+ders.ikon+' '+ders.ad+'</h2><p style="margin-top:8px">Bu ders için henüz içerik eklenmedi.</p></div>';
+  }
+
+  document.getElementById("geriDon").addEventListener("click", () => {
+    nav.style.display = "grid";
+    detail.innerHTML = "";
+    history.replaceState(null,"","#");
+  });
+
+  history.replaceState(null,"","#"+id);
+}
+
+dersler.forEach(d => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "subject";
+  b.style.setProperty("--c", d.renk);
+  b.innerHTML = '<span class="icon">'+d.ikon+'</span><span class="name">'+kac(d.ad)+'</span>';
+  b.addEventListener("click", () => dersSec(d.id));
+  nav.appendChild(b);
+});
+</script>
+</body>
+</html>
